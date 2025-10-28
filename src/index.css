@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .animate-zoomIn {
+    animation: zoomIn 0.3s ease-out;
+  }
+  
+
+
+/* 🌠 Star Layers */
+.stars, .stars2, .stars3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    will-change: transform, opacity;
+    transition: transform 0.2s ease-out;
+    animation: twinkle 3s infinite ease-in-out alternate;
+  }
+  
+  /* ✨ Different star layers with colors & densities */
+  .stars {
+    background-image: 
+      radial-gradient(2px 2px at 20px 20px, #ffffff, transparent),
+      radial-gradient(1px 1px at 60px 80px, #ffffff, transparent),
+      radial-gradient(2px 2px at 120px 40px, #00ffff, transparent),
+      radial-gradient(1px 1px at 100px 100px, #ffffff, transparent),
+      radial-gradient(2.5px 2.5px at 140px 160px, #ffffff, transparent);
+    opacity: 0.9;
+    animation-delay: 0s;
+  }
+  
+  .stars2 {
+    background-image: 
+      radial-gradient(2px 2px at 50px 50px, #00ccff, transparent),
+      radial-gradient(1.5px 1.5px at 90px 120px, #ffffff, transparent),
+      radial-gradient(2px 2px at 150px 90px, #00ffff, transparent),
+      radial-gradient(1.5px 1.5px at 180px 160px, #ffffff, transparent);
+    opacity: 0.6;
+    animation-delay: 1s;
+  }
+  
+  .stars3 {
+    background-image: 
+      radial-gradient(1px 1px at 70px 30px, #ffffff, transparent),
+      radial-gradient(2px 2px at 130px 100px, #00ffff, transparent),
+      radial-gradient(1.5px 1.5px at 180px 150px, #ffffff, transparent);
+    opacity: 0.4;
+    animation-delay: 2s;
+  }
+  
+  /* 🌟 Twinkling Effect */
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.9; }
+  }
+  
