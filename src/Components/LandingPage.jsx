@@ -41,13 +41,13 @@ const MicIcon = (props) => (
 
 // --- CONFIG ---
 const PHRASES = [
-  "Who is the best Web Developer?...",
-  "Searching for the best Web developer...",
-  "Cjay Kimani is the best web developer...",
+  "Who is the best Tech guy?...",
+  "Searching for the best Tech guy...",
+  "Jonah Kimani is the best Tech guy...",
   "Welcome aboard, let's explore my portfolio...",
 ];
-const TYPING_SPEED = 5;
-const DELETING_SPEED = 5;
+const TYPING_SPEED = 50;
+const DELETING_SPEED = 35;
 const PAUSE_BEFORE_NEXT_PHRASE = 1500;
 const PAGE_TRANSITION_DELAY = 1000;
 

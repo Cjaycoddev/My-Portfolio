@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../index.css";
+import FloatingAssistant from './PortfolioChatbot';
 
 export default function PortfolioPage() {
   // 🧠 Image zoom state + handlers
@@ -255,8 +256,8 @@ export default function PortfolioPage() {
               skills: ["Git", "VS Code", "Postman", "Linux CLI"],
             },
             {
-              category: "Soft Skills",
-              skills: ["Problem Solving", "Team Collaboration", "Adaptability", "Time Management"],
+              category: "Core Languages",
+              skills: ["Javascript", "Python", "C & C++", "Java", "Prolog", "HTML"],
             },
           ].map((block, i) => (
             <div
@@ -546,7 +547,7 @@ export default function PortfolioPage() {
     </div>
   </div>
 
-  {/* ✅ Add this block right below your last project (before animations or </section>) */}
+
 {selectedImage && (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
       <div className="relative">
@@ -810,6 +811,7 @@ export default function PortfolioPage() {
           animation: slideInTitle 1.4s cubic-bezier(0.25, 1, 0.3, 1) forwards;
         }
       `}</style>
+      <FloatingAssistant />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../index.css"; // Tailwind/global styles
 
 // --- CONFIG ---
-const ROLES = ["Developer", "Software Engineer", "Tech Enthusiast","Data Analyst", "Problem Solver"];
+const ROLES = ["web Developer", "Software Engineer","Data Analyst","UI/UX Designer", "Problem Solver"];
 const INTRO_WORDS = ["Hi,", "I", "am", "Jonah Kimani😎"];
 
 const INTRO_SOUND = "/Sounds/pop.mp3";          
@@ -11,7 +11,7 @@ const TRANSITION_SOUND = "/Sounds/transition.mp3";
 
 const WORD_DELAY = 600;
 const ROLE_DURATION = 3000;
-const INTRO_DURATION = 14000;
+const INTRO_DURATION = 16000;
 
 // --- SIMPLE SOUND HOOK ---
 const useSound = (url, volume = 0.7) => {
