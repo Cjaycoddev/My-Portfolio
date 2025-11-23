@@ -93,7 +93,7 @@ export default function IntroPage({ onFinish }) {
             className={`animate-pop ${
               word === "Hi," || word === "I’m"
                 ? "text-3xl sm:text-5xl font-light text-cyan-300"
-                : "text-4xl sm:text-6xl font-bold text-white"
+                : "text-3xl sm:text-5xl font-bold text-white"
             }`}
             style={{ animationDelay: `${i * 0.6}s` }}
           >
