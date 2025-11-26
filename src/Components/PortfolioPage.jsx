@@ -84,65 +84,76 @@ export default function PortfolioPage() {
       {/* Animated Background Glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/30 via-purple-700/20 to-pink-500/30 animate-gradientMove blur-3xl opacity-40"></div>
 
-      {/* NAVBAR  */}
-            <nav className="fixed top-0 left-0 right-0 p-6 bg-black/40 backdrop-blur-sm shadow-md border-b border-gray-700 z-20 flex justify-between items-center">
-        
-        {/* 🚀 LOGO/NAME (Always visible on the left) */}
-        <a href="#home" className="text-2xl font-extrabold text-cyan-400">
-          JK.Dev
-        </a>
-        
-        {/* 🍔 HAMBURGER BUTTON - Visible only on mobile (below md breakpoint) */}
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          className="md:hidden text-gray-100 hover:text-cyan-400 transition z-50 p-2"
-          aria-label="Toggle navigation"
-        >
-          {/* Toggle icon based on state */}
-          <svg 
-            className="w-6 h-6" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {isMenuOpen ? (
-              // Close (X) icon
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              // Hamburger icon
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-
-        {/* 💻 NAVIGATION LINKS CONTAINER */}
-        <div 
-          className={`${
-            isMenuOpen ? 'block' : 'hidden' // MOBILE: Show/Hide based on state
-          } md:flex // DESKTOP: Always show links on medium screens and up
-            md:space-x-8 md:p-0 
-            absolute md:relative top-0 left-0 w-full h-screen md:h-auto 
-            bg-black/90 md:bg-transparent transition-all duration-300 ease-in-out
-            flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 pt-20 md:pt-0
-          `}
-        >
-          {["Home", "About", "Skills and qualifications","Tools and technologies", "Projects", "Contact"].map((item) => (
-            <a
-              key={item}
-              href={"#" + item.toLowerCase()}
-              // 🚨 Crucial: Close menu after clicking a link on mobile 🚨
-              onClick={() => setIsMenuOpen(false)} 
-              className="relative group text-2xl md:text-lg font-medium tracking-wide w-full text-center md:w-auto"
-            >
-              <span className="transition-colors duration-300 group-hover:text-cyan-400">
-                {item}
-              </span>
-              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+      {/* NAVBAR */}
+              <nav className="fixed top-0 left-0 right-0 p-6 bg-black/40 backdrop-blur-sm shadow-md border-b border-gray-700 z-20 flex justify-between items-center">
+            
+            {/* 🚀 LOGO/NAME */}
+            <a href="#home" className="text-2xl font-extrabold text-cyan-400">
+              JK.Dev
             </a>
-          ))}
-        </div>
-      </nav>
+            
+            {/* 🍔 HAMBURGER BUTTON */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+              className="md:hidden text-gray-100 hover:text-cyan-400 transition z-50 p-2"
+              aria-label="Toggle navigation"
+            >
+              <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+
+            {/* 💻 NAVIGATION LINKS CONTAINER - CRITICAL CHANGES HERE */}
+            <div 
+              className={`${
+                isMenuOpen ? 'fixed' : 'hidden' 
+              } md:flex 
+                
+                // MOBILE OVERLAY STYLES
+                top-0 left-0 w-full h-screen 
+                flex flex-col // **REPEATING FLEX HERE FOR PRIORITY**
+                items-center 
+                justify-center 
+                space-y-8 
+                text-2xl 
+                bg-black/95 
+                transition-opacity duration-300 ease-in-out
+
+                // DESKTOP STYLES (md: prefix ensures these only apply on desktop)
+                md:relative md:top-auto md:left-auto md:h-auto 
+                md:flex-row md:space-x-8 md:space-y-0 
+                md:bg-transparent md:text-lg
+              `}
+            >
+              {["Home", "About", "Skills and qualifications","Tools and technologies", "Projects", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href={"#" + item.toLowerCase()}
+                  onClick={() => setIsMenuOpen(false)} 
+                  // LINKS NOW GET DISPLAY:BLOCK ON MOBILE TO ENSURE FULL ROW TAKEOVER
+                  className="relative group font-medium tracking-wide text-center py-2 px-4 
+                    block // **CRUCIAL: Makes the link a block element on mobile**
+                    md:inline-block // Reverts to inline-block on desktop
+                    md:text-left"
+                >
+                  <span className="transition-colors duration-300 group-hover:text-cyan-400">
+                    {item}
+                  </span>
+                  <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
+            </div>
+        </nav>
 
       {/* HOME SECTION */}
       <section
