@@ -245,31 +245,33 @@ export default function LandingPage({ onFinish }) {
         </div>
 
         {/* Buttons + Hand pointer */}
-        <div className="mt-8 flex items-center space-x-4">
-          <div className="relative flex items-center">
-            {showHand && !isTyping && (
-              <div className="absolute -left-27 top-1/2 transform -translate-y-1/2 text-2xl flex items-center space-x-2 animate-bounce">
-                <span className="text-sm text-gray-600">Click here</span>
-                <span>👉</span>
-              </div>
-            )}
+        <div className="mt-8 flex items-center space-x-4">
+        <div className="relative flex items-center">
+        {showHand && !isTyping && (
+        // CORRECTED: Removed -left-27. We are now using absolute to place it relative to the button container.
+        // We position it *outside* and *to the left* of the button.
+        <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600 flex items-center space-x-1 animate-bounce whitespace-nowrap">
+                <span>Click here</span>
+                <span>👉</span>
+        </div>
+        )}
 
-            <button
-              onClick={handleStartSearch}
-              disabled={isTyping}
-              className={`px-4 py-2 text-sm rounded-md transition duration-200 border 
-                ${isTyping
-                  ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
-            >
-              Google Search
-            </button>
-          </div>
-
-          <button className="px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200">
-            I’m Feeling Lucky
-          </button>
-        </div>
+        <button
+        onClick={handleStartSearch}
+        disabled={isTyping}
+        className={`px-4 py-2 text-sm rounded-md transition duration-200 border 
+                ${isTyping
+                ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+        >
+        Google Search
+        </button>
+        </div>
+        
+        <button className="px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200">
+        I’m Feeling Lucky
+        </button>
+        </div>
       </main> {/* <-- Closing Tag for main */}
 
       {/* --- Optimized FOOTER --- */}
