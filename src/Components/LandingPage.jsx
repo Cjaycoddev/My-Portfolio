@@ -246,11 +246,10 @@ export default function LandingPage({ onFinish }) {
 
         {/* Buttons + Hand pointer (Now constrained to the search bar width) */}
         <div 
-        // ADDED SEARCH BAR WIDTH CLASSES: w-11/12 (mobile) to max widths (desktop)
         className="
         mt-8 
         w-11/12 md:w-3/4 lg:w-[600px] xl:w-[700px] max-w-full
-        flex items-center justify-center space-x-4
+        flex items-center justify-center space-x-2 sm:space-x-4 // **CRUCIAL CHANGE: Reduced spacing on mobile**
         "
         >
         <div className="relative flex items-center">
@@ -264,7 +263,7 @@ export default function LandingPage({ onFinish }) {
         <button
         onClick={handleStartSearch}
         disabled={isTyping}
-        className={`px-4 py-2 text-sm rounded-md transition duration-200 border whitespace-nowrap
+        className={`px-2 sm:px-4 py-2 text-sm rounded-md transition duration-200 border whitespace-nowrap
                 ${isTyping
                 ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
@@ -274,7 +273,7 @@ export default function LandingPage({ onFinish }) {
         </div>
         
         <button 
-        className="px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap"
+        className="px-2 sm:px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap"
         >
         I’m Feeling Lucky
         </button>
