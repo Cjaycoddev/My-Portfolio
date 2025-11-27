@@ -244,11 +244,17 @@ export default function LandingPage({ onFinish }) {
           <MicIcon className="text-blue-500 w-5 h-5 ml-3 cursor-pointer hover:text-blue-700 transition" />
         </div>
 
-        {/* Buttons + Hand pointer */}
-        <div className="mt-8 flex items-center justify-center space-x-4">
+        {/* Buttons + Hand pointer (Now constrained to the search bar width) */}
+        <div 
+        // ADDED SEARCH BAR WIDTH CLASSES: w-11/12 (mobile) to max widths (desktop)
+        className="
+        mt-8 
+        w-11/12 md:w-3/4 lg:w-[600px] xl:w-[700px] max-w-full
+        flex items-center justify-center space-x-4
+        "
+        >
         <div className="relative flex items-center">
         {showHand && !isTyping && (
-        // Prompt remains small and tightly positioned
         <div className="absolute right-full mr-1 top-1/2 transform -translate-y-1/2 text-xs text-gray-600 flex items-center space-x-0.5 animate-bounce whitespace-nowrap">
                 <span>Click here</span>
                 <span>👉</span>
@@ -258,7 +264,6 @@ export default function LandingPage({ onFinish }) {
         <button
         onClick={handleStartSearch}
         disabled={isTyping}
-        // Reverted padding and text size, added whitespace-nowrap
         className={`px-4 py-2 text-sm rounded-md transition duration-200 border whitespace-nowrap
                 ${isTyping
                 ? "bg-gray-100 text-gray-500 cursor-not-allowed"
@@ -269,7 +274,6 @@ export default function LandingPage({ onFinish }) {
         </div>
         
         <button 
-        // Reverted padding and text size, added whitespace-nowrap
         className="px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap"
         >
         I’m Feeling Lucky
