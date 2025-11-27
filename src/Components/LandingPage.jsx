@@ -245,12 +245,12 @@ export default function LandingPage({ onFinish }) {
         </div>
 
         {/* Buttons + Hand pointer */}
-        <div className="mt-8 flex items-center space-x-4">
+        <div className="mt-8 flex items-center justify-center space-x-1 sm:space-x-4">
         <div className="relative flex items-center">
         {showHand && !isTyping && (
-        // CORRECTED: Removed -left-27. We are now using absolute to place it relative to the button container.
-        // We position it *outside* and *to the left* of the button.
-        <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600 flex items-center space-x-1 animate-bounce whitespace-nowrap">
+        // CORRECTED: Tightened spacing and removed unnecessary classes.
+        // We are forcing it to be adjacent to the button's right edge (right-full)
+        <div className="absolute right-full mr-1 top-1/2 transform -translate-y-1/2 text-xs text-gray-600 flex items-center space-x-0.5 animate-bounce">
                 <span>Click here</span>
                 <span>👉</span>
         </div>
@@ -259,7 +259,8 @@ export default function LandingPage({ onFinish }) {
         <button
         onClick={handleStartSearch}
         disabled={isTyping}
-        className={`px-4 py-2 text-sm rounded-md transition duration-200 border 
+        // Added max-w-1/2 to let the buttons shrink slightly on narrow screens
+        className={`px-2 py-2 text-xs sm:text-sm rounded-md transition duration-200 border max-w-1/2
                 ${isTyping
                 ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
@@ -268,7 +269,9 @@ export default function LandingPage({ onFinish }) {
         </button>
         </div>
         
-        <button className="px-4 py-2 text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200">
+        <button 
+        className="px-2 py-2 text-xs sm:text-sm rounded-md transition duration-200 border bg-gray-100 text-gray-700 hover:bg-gray-200 max-w-1/2"
+        >
         I’m Feeling Lucky
         </button>
         </div>
