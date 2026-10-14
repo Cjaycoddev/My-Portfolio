@@ -5,7 +5,6 @@ const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 const MODEL_NAMES = [
   "gemini-3.8-flash",
   "gemini-2.0-flash",
-  "gemini-1.5-flash",
 ];
 
 const getApiUrl = (modelName) =>
@@ -165,70 +164,47 @@ const ChatWidget = ({ onClose }) => {
             systemInstruction: SYSTEM_INSTRUCTION,
         };
 
-        const maxRetries = 3;
-        let retryDelay = 1000;
+        let lastError = null;
 
-        for (let modelAttempt = 0; modelAttempt < MODEL_NAMES.length; modelAttempt++) {
-          const currentApiUrl = getApiUrl(MODEL_NAMES[modelAttempt]);
+        for (const modelName of MODEL_NAMES) {
+          const currentApiUrl = getApiUrl(modelName);
+          try {
+            const response = await fetch(currentApiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
 
-          for (let i = 0; i < maxRetries; i++) {
-            try {
-                const response = await fetch(currentApiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                  const errorText = await response.text();
-                  let errorMessage = `HTTP ${response.status}`;
-                  try {
-                    const errorJson = JSON.parse(errorText);
-                    errorMessage = errorJson?.error?.message || errorMessage;
-                  } catch {}
-                  
-                  if (response.status === 404 && modelAttempt < MODEL_NAMES.length - 1) {
-                    throw new Error(`MODEL_NOT_FOUND`);
-                  }
-                  
-                  if (response.status === 400 && modelAttempt < MODEL_NAMES.length - 1) {
-                    throw new Error(`MODEL_NOT_FOUND`);
-                  }
-                  
-                  throw new Error(`API Error: ${errorMessage}`);
-                }
-
-                const result = await response.json();
-                const aiText = result.candidates?.[0]?.content?.parts?.[0]?.text || 
-                               "I apologize, I received an unclear response from the server.";
-                
-                setMessages((prev) => [...prev, { sender: 'ai', text: aiText }]);
-                setLoading(false);
-                return;
-
-            } catch (error) {
-                console.error(`Attempt ${i + 1} failed (model: ${MODEL_NAMES[modelAttempt]}):`, error);
-                
-                if (error.message === 'MODEL_NOT_FOUND' && modelAttempt < MODEL_NAMES.length - 1) {
-                  continue;
-                }
-                
-                if (i === maxRetries - 1) {
-                  if (modelAttempt < MODEL_NAMES.length - 1) {
-                    continue;
-                  }
-                  setMessages((prev) => [
-                    ...prev,
-                    { sender: 'ai', text: `Error: ${error.message || "The AI service encountered an error after multiple retries. Please check your API key and try again."}` }
-                  ]);
-                  setLoading(false);
-                } else {
-                  await new Promise(resolve => setTimeout(resolve, retryDelay));
-                  retryDelay *= 2;
-                }
+            if (!response.ok) {
+              const errorText = await response.text();
+              let errorMessage = `HTTP ${response.status}`;
+              try {
+                const errorJson = JSON.parse(errorText);
+                errorMessage = errorJson?.error?.message || errorMessage;
+              } catch {}
+              throw new Error(errorMessage);
             }
+
+            const result = await response.json();
+            const aiText = result.candidates?.[0]?.content?.parts?.[0]?.text ||
+                           "I apologize, I received an unclear response from the server.";
+
+            setMessages((prev) => [...prev, { sender: 'ai', text: aiText }]);
+            setLoading(false);
+            return;
+
+          } catch (error) {
+            console.error(`Failed (model: ${modelName}):`, error);
+            lastError = error;
+            continue;
           }
         }
+
+        setMessages((prev) => [
+          ...prev,
+          { sender: 'ai', text: `Error: ${lastError?.message || "The AI service encountered an error. Please try again."}` }
+        ]);
+        setLoading(false);
     }, [input, loading, messages]);
 
     return (
