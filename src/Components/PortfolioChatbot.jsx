@@ -72,7 +72,7 @@ Frontend (React/TailwindCSS): Developed separate, tailored interfaces (e.g., a s
 Core Languages: Javascript,Python,C & C++, Java, Prolog,HTML.
 Certifications: Certified Network Associate (CCNA) from Alison Academy 2022, Full-Stack Web Development from FreeCodeCamp / Udemy 2024
 Education: Bsc. Information Technology,Kenyatta University.
-Contact: Connect via the contact form on this site. Jonah is looking for Job positions in tech Companies/ organizations especially as a web developer.
+Contact: Connect via the contact form on this site or email at jonahkimwainaina@gmail.com. Jonah is looking for Job positions in tech Companies/ organizations especially as a web developer.
 `;
 
 

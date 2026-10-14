@@ -677,7 +677,7 @@ export default function PortfolioPage() {
 
   {/* Contact Form */}
 <form
-  action="https://formspree.io/f/xpwozgol"
+  action="https://formspree.io/f/xrpgyege"
   method="POST"
   onSubmit={async (e) => {
     e.preventDefault();
@@ -772,7 +772,7 @@ export default function PortfolioPage() {
       {
         name: "Email",
         icon: "fa-solid fa-envelope",
-        link: "https://mail.google.com/mail/?view=cm&fs=1&to=Jonahkimani254@gmail.com&su=Let's%20Connect&body=Hi%20Jonah,%0A%0A",
+        link: "https://mail.google.com/mail/?view=cm&fs=1&to=jonahkimwainaina@gmail.com&su=Let's%20Connect&body=Hi%20Jonah,%0A%0A",
       },
     ].map((social, i) => (
       <a
