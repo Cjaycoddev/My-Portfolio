@@ -2,8 +2,14 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
-const modelName = "gemini-2.5-flash-preview-09-2025";
-const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+const MODEL_NAMES = [
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-1.5-flash",
+];
+
+const getApiUrl = (modelName) =>
+  `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 const PORTFOLIO_KNOWLEDGE = `
 Portfolio Owner Name: Jonah Kimani
 Current Role: Senior Full-Stack Developer (4 years experience freelance)
@@ -157,22 +163,39 @@ const ChatWidget = ({ onClose }) => {
         const payload = {
             contents: [{ parts: [{ text: userMessage }] }],
             systemInstruction: SYSTEM_INSTRUCTION,
-            // Exponential backoff logic
         };
 
-        const maxRetries = 5;
+        const maxRetries = 3;
         let retryDelay = 1000;
 
-        for (let i = 0; i < maxRetries; i++) {
+        for (let modelAttempt = 0; modelAttempt < MODEL_NAMES.length; modelAttempt++) {
+          const currentApiUrl = getApiUrl(MODEL_NAMES[modelAttempt]);
+
+          for (let i = 0; i < maxRetries; i++) {
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(currentApiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                  const errorText = await response.text();
+                  let errorMessage = `HTTP ${response.status}`;
+                  try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson?.error?.message || errorMessage;
+                  } catch {}
+                  
+                  if (response.status === 404 && modelAttempt < MODEL_NAMES.length - 1) {
+                    throw new Error(`MODEL_NOT_FOUND`);
+                  }
+                  
+                  if (response.status === 400 && modelAttempt < MODEL_NAMES.length - 1) {
+                    throw new Error(`MODEL_NOT_FOUND`);
+                  }
+                  
+                  throw new Error(`API Error: ${errorMessage}`);
                 }
 
                 const result = await response.json();
@@ -181,23 +204,30 @@ const ChatWidget = ({ onClose }) => {
                 
                 setMessages((prev) => [...prev, { sender: 'ai', text: aiText }]);
                 setLoading(false);
-                return; // Exit loop on success
+                return;
 
             } catch (error) {
-                console.error(`Attempt ${i + 1} failed:`, error);
+                console.error(`Attempt ${i + 1} failed (model: ${MODEL_NAMES[modelAttempt]}):`, error);
+                
+                if (error.message === 'MODEL_NOT_FOUND' && modelAttempt < MODEL_NAMES.length - 1) {
+                  continue;
+                }
+                
                 if (i === maxRetries - 1) {
-                    // Final attempt failed
-                    setMessages((prev) => [
-                        ...prev,
-                        { sender: 'ai', text: "Oops! The AI service encountered an error after multiple retries. Please check your API key and connection, then try again." }
-                    ]);
-                    setLoading(false);
+                  if (modelAttempt < MODEL_NAMES.length - 1) {
+                    continue;
+                  }
+                  setMessages((prev) => [
+                    ...prev,
+                    { sender: 'ai', text: `Error: ${error.message || "The AI service encountered an error after multiple retries. Please check your API key and try again."}` }
+                  ]);
+                  setLoading(false);
                 } else {
-                    // Wait before retrying
-                    await new Promise(resolve => setTimeout(resolve, retryDelay));
-                    retryDelay *= 2;
+                  await new Promise(resolve => setTimeout(resolve, retryDelay));
+                  retryDelay *= 2;
                 }
             }
+          }
         }
     }, [input, loading, messages]);
 
